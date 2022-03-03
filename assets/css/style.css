@@ -1,0 +1,34 @@
+
+header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    margin-bottom: 100px;
+}
+
+header h2 {
+    margin: 0 50px;
+}
+.purple-text {
+    color: #b54be5;
+}
+
+main {
+    position: relative;
+}
+
+#main-content {
+    text-align: center;
+}
+
+#main-content p {
+    font-size: 20px;
+}
+
+.main-button {
+    background-color: #351c75;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 20px;
+}
