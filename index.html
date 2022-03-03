@@ -13,7 +13,10 @@
         <h2 id="timer">Time: 0</h2>
     </header>
     <main>
-        <div id="main-content">
+        <!-- The main handling of changing the html is done by having predefined div elements for each of the types of page. -->
+        <!-- The divs are cleared of content when they are not supposed to be visible, and their data-state is changed to hidden. -->
+        <!-- The content of the divs is re-added when they are supposed to become visible -->
+        <div id="start-page" data-state="visible">
             <h1>Coding Quiz Challenge</h1>
             <p>
                 Try to answer the following code-related questions within the time limit.
@@ -23,6 +26,8 @@
             </p>
             <button id="start-quiz" class="main-button">Start Quiz</button>
         </div>
+        <div id="quiz-question" data-state="hidden"></div>
+        <div id="end-quiz-page" data-state="hidden"></div>
     </main>
     <script src="./assets/js/script.js"></script>
 </body>
