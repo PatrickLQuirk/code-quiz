@@ -7,7 +7,7 @@ var score = 0;
 
 var buttonHandler = function(event) {
     var targetEl = event.target;
-    console.log(targetEl);
+    // console.log(targetEl);
 
     // if the target is the start quiz button, start the quiz
     if (targetEl.matches(".start-quiz-button")) {
@@ -58,9 +58,56 @@ var startQuiz = function() {
             timeLeft = timeLeft - 1;
         }
     }, 1000);
+
+    // create the HTML elements for the quiz questions
+    var questionPromptEl = document.createElement("h1");
+    questionPromptEl.textContent = "placeholder question prompt";
+    quizQuestionEl.appendChild(questionPromptEl);
+    var questionButtonDivEl = document.createElement("div");
+    questionButtonDivEl.className = "quiz-choices-div";
+    for (i = 0; i < 4; i++) {
+        var questionButtonEl = document.createElement("button");
+        questionButtonEl.className = "main-button";
+        questionButtonEl.textContent = "Choice " + i;
+        questionButtonDivEl.appendChild(questionButtonEl);
+    };
+    quizQuestionEl.appendChild(questionButtonDivEl);
+    var rightWrongEl = document.createElement("h2");
+    rightWrongEl.textContent = "placeholder right/wrong";
+    quizQuestionEl.appendChild(rightWrongEl);
 }
 
-var quizQuestionSet = [];
+var constructQuizQuestion = function(quizQuestionSet, questionIndex) {
+    question = quizQuestionSet[questionIndex];
+}
+
+var quizQuestionSet = [
+    {
+        prompt: "Commonly used data types DO NOT include:",
+        choices: ["strings", "booleans", "alerts", "numbers"],
+        answer: "alerts"
+    },
+    {
+        prompt: "The condition in an if / else statement is enclosed with ______.",
+        choices: ["quotes", "curly brackets", "parenthesis", "square brackets"],
+        answer: "parenthesis"
+    },
+    {
+        prompt: "Arrays in JavaScript can be used to store ______.",
+        choices: ["numbers and strings", "other arrays", "booleans", "all of the above"],
+        answer: "all of the above"
+    },
+    {
+        prompt: "String values must be enclosed within ______ when being assigned to variables.",
+        choices: ["commas", "curly brackets", "quotes", "parenthesis"],
+        answer: "quotes"
+    },
+    {
+        prompt: "A very useful tool used during development and debugging for printing content to the debugger is:",
+        choices: ["JavaScript", "terminal/bash", "for loops", "console.log"],
+        answer: "console.log"
+    }
+];
 
 mainContentEl.addEventListener("click", buttonHandler);
 

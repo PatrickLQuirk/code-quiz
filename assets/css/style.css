@@ -36,3 +36,14 @@ main {
 .main-button:hover {
     background-color: #bd60e7;
 }
+
+#quiz-question {
+    width: 60%;
+    margin: auto;
+    text-align: left;
+}
+
+.quiz-choices-div button {
+    display: block;
+    margin: 20px;
+}
