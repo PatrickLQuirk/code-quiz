@@ -45,6 +45,30 @@ var revertToStartingPage = function() {
 var startQuiz = function() {
     console.log("Starting quiz...");
     startPageEl.innerHTML = "";
+
+    // create the HTML elements for the quiz questions
+    var questionPromptEl = document.createElement("h1");
+    questionPromptEl.className = "question-prompt";
+    quizQuestionEl.appendChild(questionPromptEl);
+    var questionButtonDivEl = document.createElement("div");
+    questionButtonDivEl.className = "quiz-choices-div";
+    for (i = 0; i < 4; i++) {
+        var questionButtonEl = document.createElement("button");
+        questionButtonEl.className = "main-button";
+        questionButtonEl.setAttribute("data-button-id", i);
+        questionButtonDivEl.appendChild(questionButtonEl);
+    };
+    quizQuestionEl.appendChild(questionButtonDivEl);
+    var rightWrongEl = document.createElement("h2");
+    rightWrongEl.textContent = "placeholder right/wrong";
+    rightWrongEl.className = "right-wrong-info";
+    quizQuestionEl.appendChild(rightWrongEl);
+
+    runQuiz();
+}
+
+var runQuiz = function() {
+    console.log("running quiz");
     var timeLeft = 75;
     var timeInterval = setInterval(function() {
         if (timeLeft <= 0) {
@@ -58,27 +82,18 @@ var startQuiz = function() {
             timeLeft = timeLeft - 1;
         }
     }, 1000);
-
-    // create the HTML elements for the quiz questions
-    var questionPromptEl = document.createElement("h1");
-    questionPromptEl.textContent = "placeholder question prompt";
-    quizQuestionEl.appendChild(questionPromptEl);
-    var questionButtonDivEl = document.createElement("div");
-    questionButtonDivEl.className = "quiz-choices-div";
-    for (i = 0; i < 4; i++) {
-        var questionButtonEl = document.createElement("button");
-        questionButtonEl.className = "main-button";
-        questionButtonEl.textContent = "Choice " + i;
-        questionButtonDivEl.appendChild(questionButtonEl);
-    };
-    quizQuestionEl.appendChild(questionButtonDivEl);
-    var rightWrongEl = document.createElement("h2");
-    rightWrongEl.textContent = "placeholder right/wrong";
-    quizQuestionEl.appendChild(rightWrongEl);
+    questionIndex = 0;
+    var questionPromptEl = document.querySelector(".question-prompt");
+    constructQuizQuestion(0, questionPromptEl);
 }
 
-var constructQuizQuestion = function(quizQuestionSet, questionIndex) {
-    question = quizQuestionSet[questionIndex];
+var constructQuizQuestion = function(questionIndex, questionPromptEl) {
+    var question = quizQuestionSet[questionIndex];
+    questionPromptEl.textContent = question.prompt;
+    for (i = 0; i < question.choices.length; i++) {
+        var choiceButtonEl = document.querySelector(".main-button[data-button-id='" + i + "']");
+        choiceButtonEl.textContent = (i + 1) + ". " + question.choices[i];
+    };
 }
 
 var quizQuestionSet = [
