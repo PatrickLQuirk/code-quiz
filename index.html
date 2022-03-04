@@ -16,7 +16,7 @@
         <!-- The main handling of changing the html is done by having predefined div elements for each of the types of page. -->
         <!-- The divs are cleared of content when they are not supposed to be visible, and their data-state is changed to hidden. -->
         <!-- The content of the divs is re-added when they are supposed to become visible -->
-        <div id="start-page" data-state="visible">
+        <div id="start-page">
             <h1>Coding Quiz Challenge</h1>
             <p>
                 Try to answer the following code-related questions within the time limit.
@@ -26,8 +26,8 @@
             </p>
             <button class="main-button start-quiz-button">Start Quiz</button>
         </div>
-        <div id="quiz-question" data-state="hidden"></div>
-        <div id="end-quiz-page" data-state="hidden"></div>
+        <div id="quiz-question"></div>
+        <div id="end-quiz-page"></div>
     </main>
     <script src="./assets/js/script.js"></script>
 </body>

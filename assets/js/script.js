@@ -2,6 +2,8 @@ var mainContentEl = document.querySelector("#main-content");
 var startPageEl = document.querySelector("#start-page");
 var quizQuestionEl = document.querySelector("#quiz-question");
 var endQuizPageEl = document.querySelector("#end-quiz-page");
+var timerEl = document.querySelector("#timer");
+var score = 0;
 
 var buttonHandler = function(event) {
     var targetEl = event.target;
@@ -11,11 +13,7 @@ var buttonHandler = function(event) {
     if (targetEl.matches(".start-quiz-button")) {
         startQuiz();
     }
-    else if (targetEl.matches(".temp-quiz-button")) {
-        // this condition is here only for testing
-        // a different condition will trigger the reversion to start page later
-        revertToStartingPage();
-    }
+    
 }
 
 
@@ -23,11 +21,9 @@ var revertToStartingPage = function() {
     console.log("reverting to the start page");
     // remove any content from quizQuestionEl
     quizQuestionEl.innerHTML = "";
-    quizQuestionEl.dataset.state = "hidden";
     // remove any content from endQuizPageEl
     endQuizPageEl.innerHTML = "";
-    endQuizPageEl.dataset.state = "hidden";
-
+    
     // reset the startPageEl innerHTML to what it was originally
     var startQuizHeadingEl = document.createElement("h1");
     startQuizHeadingEl.textContent = "Coding Quiz Challenge";
@@ -44,22 +40,27 @@ var revertToStartingPage = function() {
     startQuizButtonEl.textContent = "Start Quiz";
     startQuizButtonEl.className = "main-button start-quiz-button";
     startPageEl.appendChild(startQuizButtonEl);
-    startPageEl.dataset.state = "visible";
 };
 
 var startQuiz = function() {
     console.log("Starting quiz...");
-
     startPageEl.innerHTML = "";
-    startPageEl.dataset.state = "hidden";
-
-    // this quiz button is temporary and is only here for testing the reversion to the starting page
-    var tempQuizButton = document.createElement("button");
-    tempQuizButton.className = "main-button temp-quiz-button";
-    tempQuizButton.textContent = "End Quiz";
-    quizQuestionEl.appendChild(tempQuizButton);
-    quizQuestionEl.dataset.state = "visible";
+    var timeLeft = 75;
+    var timeInterval = setInterval(function() {
+        if (timeLeft <= 0) {
+            clearInterval(timeInterval);
+            timerEl.textContent = "Time: 0";
+            console.log("Ending quiz because time ran out");
+            // change next line to go to a function for handling the end of the quiz
+            revertToStartingPage();
+        } else {
+            timerEl.textContent = "Time: " + timeLeft;
+            timeLeft = timeLeft - 1;
+        }
+    }, 1000);
 }
+
+var quizQuestionSet = [];
 
 mainContentEl.addEventListener("click", buttonHandler);
 
