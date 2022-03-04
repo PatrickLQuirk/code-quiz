@@ -29,6 +29,10 @@ main {
     background-color: #351c75;
     color: white;
     padding: 10px 20px;
-    border-radius: 5px;
+    border-radius: 10px;
     font-size: 20px;
+}
+
+.main-button:hover {
+    background-color: #bd60e7;
 }
