@@ -53,7 +53,3 @@ main {
     font-style: italic;
     border-top: 3px solid;
 }
-
-.hidden-elt {
-    display: none;
-}

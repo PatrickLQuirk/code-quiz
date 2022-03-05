@@ -99,7 +99,8 @@ var runQuiz = function() {
             }
             else {
                 console.log("incorrect answer");
-                timeLeft = timeLeft - 10;
+                timeLeft = timeLeft - 9;
+                timerEl.textContent = "Time: " + timeLeft;
                 correctIncorrectMessage(false);
             }
             questionIndex = questionIndex + 1
