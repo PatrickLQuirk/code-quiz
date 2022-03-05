@@ -86,7 +86,7 @@ var runQuiz = function() {
     questionIndex = 0;
     var questionPromptEl = document.querySelector(".question-prompt");
     constructQuizQuestion(questionIndex, questionPromptEl);
-    // add an event listener to handle the answer choice clicks
+    // event listener to handle the answer choice clicks
     quizQuestionEl.addEventListener("click", function(event) {
         var targetEl = event.target;
         if (targetEl.matches(".main-button")) {
