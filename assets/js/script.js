@@ -61,10 +61,9 @@ var startQuiz = function() {
         questionButtonDivEl.appendChild(questionButtonEl);
     };
     quizQuestionEl.appendChild(questionButtonDivEl);
-    var rightWrongEl = document.createElement("h2");
-    rightWrongEl.textContent = "placeholder right/wrong";
-    rightWrongEl.className = "right-wrong-info";
-    quizQuestionEl.appendChild(rightWrongEl);
+    var correctWrongEl = document.createElement("h2");
+    correctWrongEl.className = "correct-wrong-info";
+    quizQuestionEl.appendChild(correctWrongEl);
 
     runQuiz();
 }
@@ -96,10 +95,12 @@ var runQuiz = function() {
             var answer = question.answer;
             if (targetTextContent.slice(3, targetTextContent.length) === answer) {
                 console.log("correct answer");
+                correctIncorrectMessage(true);
             }
             else {
                 console.log("incorrect answer");
                 timeLeft = timeLeft - 10;
+                correctIncorrectMessage(false);
             }
             questionIndex = questionIndex + 1
             if (questionIndex >= quizQuestionSet.length) {
@@ -122,6 +123,19 @@ var constructQuizQuestion = function(questionIndex, questionPromptEl) {
         var choiceButtonEl = document.querySelector(".main-button[data-button-id='" + i + "']");
         choiceButtonEl.textContent = (i + 1) + ". " + question.choices[i];
     };
+}
+
+var correctIncorrectMessage = function(isCorrect) {
+    var correctWrongEl = document.querySelector(".correct-wrong-info");
+    if (isCorrect) {
+        correctWrongEl.textContent = "Correct!";
+    } else {
+        correctWrongEl.textContent = "Wrong!";
+    };
+    correctWrongEl.style.display = "block";
+    setTimeout(function() {
+        correctWrongEl.style.display = "none";
+    }, 1000);
 }
 
 var quizQuestionSet = [
