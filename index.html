@@ -13,9 +13,12 @@
         <h2 id="timer">Time: 0</h2>
     </header>
     <main id="main-content">
-        <!-- The main handling of changing the html is done by having predefined div elements for each of the types of page. -->
-        <!-- The divs are cleared of content when they are not supposed to be visible -->
-        <!-- The content of the divs is re-added when they are supposed to become visible -->
+        <!-- The main handling of changing which "page" we are on will be done by changing the display property of elements -->
+        <!-- The page will start with only the start-page div visible -->
+        <!-- During the quiz, the quiz-question page will be visible -->
+        <!-- similarly for the end-quiz-page and high-score-page -->
+        <!-- correct-wrong-info will be displayed for one second after answering a question, either during the quiz or 
+        on the end-quiz-page if that question was the last question -->
         <div id="start-page">
             <h1>Coding Quiz Challenge</h1>
             <p>
@@ -26,8 +29,18 @@
             </p>
             <button class="main-button start-quiz-button">Start Quiz</button>
         </div>
-        <div id="quiz-question"></div>
-        <div id="end-quiz-page"></div>
+        <div id="quiz-question" class="centered" style="display:none">
+            <h1 id="question-prompt">Placeholder</h1>
+            <div class="quiz-choices-div">
+                <button class="main-button" data-button-id="1">Choice 1</button>
+                <button class="main-button" data-button-id="2">Choice 2</button>
+                <button class="main-button" data-button-id="3">Choice 3</button>
+                <button class="main-button" data-button-id="4">Choice 4</button>
+            </div>
+        </div>
+        <div id="end-quiz-page" style="display:none"></div>
+        <div id="high-score-page" style="display:none"></div>
+        <div id="correct-wrong-info" class="centered" style="display:none"></div>
     </main>
     <script src="./assets/js/script.js"></script>
 </body>

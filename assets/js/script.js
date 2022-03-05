@@ -1,7 +1,12 @@
 var mainContentEl = document.querySelector("#main-content");
+
 var startPageEl = document.querySelector("#start-page");
 var quizQuestionEl = document.querySelector("#quiz-question");
 var endQuizPageEl = document.querySelector("#end-quiz-page");
+var highScorePageEl = document.querySelector("#high-score-page");
+var correctWrongEl = document.querySelector("#correct-wrong-info");
+
+var questionPromptEl = document.querySelector("#question-prompt");
 var timerEl = document.querySelector("#timer");
 var score = 0;
 
@@ -19,52 +24,25 @@ var buttonHandler = function(event) {
 
 var revertToStartingPage = function() {
     console.log("reverting to the start page");
-    // remove any content from quizQuestionEl
-    quizQuestionEl.innerHTML = "";
-    // remove any content from endQuizPageEl
-    endQuizPageEl.innerHTML = "";
-    
-    // reset the startPageEl innerHTML to what it was originally
-    var startQuizHeadingEl = document.createElement("h1");
-    startQuizHeadingEl.textContent = "Coding Quiz Challenge";
-    startPageEl.appendChild(startQuizHeadingEl);
+    // display the start page
+    startPageEl.style.display = "block";
 
-    var startQuizInstructions1El = document.createElement("p");
-    startQuizInstructions1El.textContent = "Try to answer the following code-related questions within the time limit.";
-    startPageEl.appendChild(startQuizInstructions1El);
-    var startQuizInstructions2El = document.createElement("p");
-    startQuizInstructions2El.textContent = "Keep in mind that incorrect answers will penalize your score/time by ten seconds!";
-    startPageEl.appendChild(startQuizInstructions2El);
-    
-    var startQuizButtonEl = document.createElement("button");
-    startQuizButtonEl.textContent = "Start Quiz";
-    startQuizButtonEl.className = "main-button start-quiz-button";
-    startPageEl.appendChild(startQuizButtonEl);
+    // stop displaying the other pages
+    quizQuestionEl.style.display = "none";
+    endQuizPageEl.style.display = "none";
+    highScorePageEl.style.display = "none";
+    correctWrongEl.style.display = "none";
 
     // add code to revert the timer back to saying zero
+    timerEl.textContent = "Time: 0";
+    // in case this is called from the high-score-page, set the timer to display
+    timerEl.style.display = "block";
 };
 
 var startQuiz = function() {
     console.log("Starting quiz...");
-    startPageEl.innerHTML = "";
-
-    // create the HTML elements for the quiz questions
-    var questionPromptEl = document.createElement("h1");
-    questionPromptEl.className = "question-prompt";
-    quizQuestionEl.appendChild(questionPromptEl);
-    var questionButtonDivEl = document.createElement("div");
-    questionButtonDivEl.className = "quiz-choices-div";
-    for (i = 0; i < 4; i++) {
-        var questionButtonEl = document.createElement("button");
-        questionButtonEl.className = "main-button";
-        questionButtonEl.setAttribute("data-button-id", i);
-        questionButtonDivEl.appendChild(questionButtonEl);
-    };
-    quizQuestionEl.appendChild(questionButtonDivEl);
-    var correctWrongEl = document.createElement("h2");
-    correctWrongEl.className = "correct-wrong-info";
-    quizQuestionEl.appendChild(correctWrongEl);
-
+    startPageEl.style.display = "none";
+    quizQuestionEl.style.display = "block";
     runQuiz();
 }
 
@@ -84,8 +62,7 @@ var runQuiz = function() {
         }
     }, 1000);
     questionIndex = 0;
-    var questionPromptEl = document.querySelector(".question-prompt");
-    constructQuizQuestion(questionIndex, questionPromptEl);
+    constructQuizQuestion(questionIndex);
     // event listener to handle the answer choice clicks
     quizQuestionEl.addEventListener("click", function(event) {
         var targetEl = event.target;
@@ -111,23 +88,22 @@ var runQuiz = function() {
                 revertToStartingPage();
             }
             else {
-                constructQuizQuestion(questionIndex, questionPromptEl);
+                constructQuizQuestion(questionIndex);
             }
         }
     });
 }
 
-var constructQuizQuestion = function(questionIndex, questionPromptEl) {
+var constructQuizQuestion = function(questionIndex) {
     var question = quizQuestionSet[questionIndex];
     questionPromptEl.textContent = question.prompt;
-    for (i = 0; i < question.choices.length; i++) {
+    for (i = 1; i <= question.choices.length; i++) {
         var choiceButtonEl = document.querySelector(".main-button[data-button-id='" + i + "']");
-        choiceButtonEl.textContent = (i + 1) + ". " + question.choices[i];
+        choiceButtonEl.textContent = i + ". " + question.choices[i];
     };
 }
 
 var correctIncorrectMessage = function(isCorrect) {
-    var correctWrongEl = document.querySelector(".correct-wrong-info");
     if (isCorrect) {
         correctWrongEl.textContent = "Correct!";
     } else {
@@ -137,7 +113,7 @@ var correctIncorrectMessage = function(isCorrect) {
     setTimeout(function() {
         correctWrongEl.style.display = "none";
     }, 1000);
-}
+};
 
 var quizQuestionSet = [
     {

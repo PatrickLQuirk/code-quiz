@@ -37,7 +37,7 @@ main {
     background-color: #bd60e7;
 }
 
-#quiz-question {
+.centered {
     width: 60%;
     margin: auto;
     text-align: left;
@@ -48,8 +48,9 @@ main {
     margin: 20px;
 }
 
-.correct-wrong-info {
+#correct-wrong-info {
     color: #9e9e9e;
+    font-size: 30px;
     font-style: italic;
     border-top: 3px solid;
 }
