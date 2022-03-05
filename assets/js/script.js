@@ -40,6 +40,8 @@ var revertToStartingPage = function() {
     startQuizButtonEl.textContent = "Start Quiz";
     startQuizButtonEl.className = "main-button start-quiz-button";
     startPageEl.appendChild(startQuizButtonEl);
+
+    // add code to revert the timer back to saying zero
 };
 
 var startQuiz = function() {
@@ -84,7 +86,33 @@ var runQuiz = function() {
     }, 1000);
     questionIndex = 0;
     var questionPromptEl = document.querySelector(".question-prompt");
-    constructQuizQuestion(0, questionPromptEl);
+    constructQuizQuestion(questionIndex, questionPromptEl);
+    // add an event listener to handle the answer choice clicks
+    quizQuestionEl.addEventListener("click", function(event) {
+        var targetEl = event.target;
+        if (targetEl.matches(".main-button")) {
+            var targetTextContent = targetEl.textContent;
+            var question = quizQuestionSet[questionIndex];
+            var answer = question.answer;
+            if (targetTextContent.slice(3, targetTextContent.length) === answer) {
+                console.log("correct answer");
+            }
+            else {
+                console.log("incorrect answer");
+                timeLeft = timeLeft - 10;
+            }
+            questionIndex = questionIndex + 1
+            if (questionIndex >= quizQuestionSet.length) {
+                console.log("Ran out of questions.");
+                clearInterval(timeInterval);
+                // change to a function for the end screen
+                revertToStartingPage();
+            }
+            else {
+                constructQuizQuestion(questionIndex, questionPromptEl);
+            }
+        }
+    });
 }
 
 var constructQuizQuestion = function(questionIndex, questionPromptEl) {
@@ -124,5 +152,7 @@ var quizQuestionSet = [
     }
 ];
 
+// change this event listener to be for just the button to start the quiz
+// the quiz answer choice buttons need to be handled inside the runQuiz function
 mainContentEl.addEventListener("click", buttonHandler);
 
