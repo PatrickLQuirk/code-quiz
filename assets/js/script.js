@@ -7,6 +7,7 @@ var highScorePageEl = document.querySelector("#high-score-page");
 var correctWrongEl = document.querySelector("#correct-wrong-info");
 
 var questionPromptEl = document.querySelector("#question-prompt");
+var highScoreLinkEl = document.querySelector("#highscorelink")
 var timerEl = document.querySelector("#timer");
 var score = 0;
 
@@ -35,8 +36,9 @@ var revertToStartingPage = function() {
 
     // add code to revert the timer back to saying zero
     timerEl.textContent = "Time: 0";
-    // in case this is called from the high-score-page, set the timer to display
+    // in case this is called from the high-score-page, start showing the timer and high-score link
     timerEl.style.display = "block";
+    highScoreLinkEl.style.display = "block";
 };
 
 var startQuiz = function() {
