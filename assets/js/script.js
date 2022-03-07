@@ -11,7 +11,11 @@ var highScoreLinkEl = document.querySelector("#highscorelink");
 var timerEl = document.querySelector("#timer");
 var timeLeft = 0;
 
-var buttonHandler = function(event) {
+// this handles many of the buttons on the page
+// for scoping reasons, this does not handle the clicks of the answer choices during the quiz
+// this also does not handle the button for submitting the player's initials on the end-screen,
+//      as that is handled with a "submit" event listener
+var clickHandler = function(event) {
     var targetEl = event.target;
     // console.log(targetEl);
 
@@ -19,7 +23,20 @@ var buttonHandler = function(event) {
     if (targetEl.matches(".start-quiz-button")) {
         startQuiz();
     }
-    
+    else if (targetEl.matches("#back-to-start")) {
+        revertToStartingPage();
+    }
+    // clear the highscores from localStorage and reset the table when the "Clear scores" button is clicked.
+    else if (targetEl.matches("#clear-high-scores")) {
+        localStorage.removeItem("highscores");
+        highScoreTable.innerHTML = "";
+        var emptyRow = document.createElement("tr");
+        var emptyRowCell = document.createElement("td");
+        emptyRowCell.textContent = "No high scores saved";
+        emptyRow.className = "table-row";
+        emptyRow.appendChild(emptyRowCell);
+        highScoreTable.appendChild(emptyRow);
+    }
 }
 
 
@@ -69,7 +86,7 @@ var runQuiz = function() {
     // event listener to handle the answer choice clicks
     quizQuestionEl.addEventListener("click", function(event) {
         var targetEl = event.target;
-        if (targetEl.matches(".main-button")) {
+        if (targetEl.matches(".quiz-button")) {
             var targetTextContent = targetEl.textContent;
             var question = quizQuestionSet[questionIndex];
             var answer = question.answer;
@@ -150,6 +167,8 @@ var saveHighScore = function(event) {
     savableValue = JSON.stringify(highScores);
     localStorage.setItem("highscores", savableValue);
 
+    timeLeft = 0;
+    timerEl.textContent = "Time: 0";
     displayHighScores();
 }
 
@@ -204,5 +223,5 @@ var quizQuestionSet = [
 
 // change this event listener to be for just the button to start the quiz
 // the quiz answer choice buttons need to be handled inside the runQuiz function
-mainContentEl.addEventListener("click", buttonHandler);
+mainContentEl.addEventListener("click", clickHandler);
 endQuizPageEl.addEventListener("submit", saveHighScore);
