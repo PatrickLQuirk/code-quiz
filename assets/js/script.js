@@ -40,11 +40,14 @@ var clickHandler = function(event) {
         emptyRow.appendChild(emptyRowCell);
         highScoreTable.appendChild(emptyRow);
     }
+    else if (targetEl.matches("#highscorelink")) {
+        displayHighScores();
+    }
 }
 
 
 var revertToStartingPage = function() {
-    console.log("reverting to the start page");
+    // console.log("reverting to the start page");
     // display the start page
     startPageEl.style.display = "block";
 
@@ -221,5 +224,5 @@ var quizQuestionSet = [
 
 // change this event listener to be for just the button to start the quiz
 // the quiz answer choice buttons need to be handled inside the runQuiz function
-mainContentEl.addEventListener("click", clickHandler);
+document.addEventListener("click", clickHandler);
 endQuizPageEl.addEventListener("submit", saveHighScore);
