@@ -13,3 +13,7 @@ They can view their high scores after saving them or by clicking on "View high s
 The application utilizes JavaScript to dynamically update the HTML and CSS of the page.
 
 ## Link to site
+https://patricklquirk.github.io/code-quiz/
+
+## Image of site
+![Image of website](assets/images/website-screenshot.png)
