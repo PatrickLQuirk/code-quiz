@@ -7,9 +7,8 @@ var highScorePageEl = document.querySelector("#high-score-page");
 var correctWrongEl = document.querySelector("#correct-wrong-info");
 
 var questionPromptEl = document.querySelector("#question-prompt");
-var highScoreLinkEl = document.querySelector("#highscorelink")
+var highScoreLinkEl = document.querySelector("#highscorelink");
 var timerEl = document.querySelector("#timer");
-var score = 0;
 
 var buttonHandler = function(event) {
     var targetEl = event.target;
@@ -51,16 +50,16 @@ var startQuiz = function() {
 var runQuiz = function() {
     console.log("running quiz");
     var timeLeft = 75;
+    timerEl.textContent = "Time: " + timeLeft;
     var timeInterval = setInterval(function() {
         if (timeLeft <= 0) {
             clearInterval(timeInterval);
             timerEl.textContent = "Time: 0";
             console.log("Ending quiz because time ran out");
-            // change next line to go to a function for handling the end of the quiz
-            revertToStartingPage();
+            endQuiz(timeLeft);
         } else {
-            timerEl.textContent = "Time: " + timeLeft;
             timeLeft = timeLeft - 1;
+            timerEl.textContent = "Time: " + timeLeft;
         }
     }, 1000);
     questionIndex = 0;
@@ -78,7 +77,7 @@ var runQuiz = function() {
             }
             else {
                 console.log("incorrect answer");
-                timeLeft = timeLeft - 9;
+                timeLeft = timeLeft - 10;
                 timerEl.textContent = "Time: " + timeLeft;
                 correctIncorrectMessage(false);
             }
@@ -86,8 +85,7 @@ var runQuiz = function() {
             if (questionIndex >= quizQuestionSet.length) {
                 console.log("Ran out of questions.");
                 clearInterval(timeInterval);
-                // change to a function for the end screen
-                revertToStartingPage();
+                endQuiz(timeLeft);
             }
             else {
                 constructQuizQuestion(questionIndex);
@@ -99,9 +97,9 @@ var runQuiz = function() {
 var constructQuizQuestion = function(questionIndex) {
     var question = quizQuestionSet[questionIndex];
     questionPromptEl.textContent = question.prompt;
-    for (i = 1; i <= question.choices.length; i++) {
-        var choiceButtonEl = document.querySelector(".main-button[data-button-id='" + i + "']");
-        choiceButtonEl.textContent = i + ". " + question.choices[i];
+    for (i = 0; i < question.choices.length; i++) {
+        var choiceButtonEl = document.querySelector(".main-button[data-button-id='" + (i + 1) + "']");
+        choiceButtonEl.textContent = (i + 1) + ". " + question.choices[i];
     };
 }
 
@@ -116,6 +114,14 @@ var correctIncorrectMessage = function(isCorrect) {
         correctWrongEl.style.display = "none";
     }, 1000);
 };
+
+var endQuiz = function(timeLeft) {
+    quizQuestionEl.style.display = "none";
+    endQuizPageEl.style.display = "block";
+    var score = timeLeft;
+    var finalScoreMessageEl = document.querySelector("#final-score-message");
+    finalScoreMessageEl.textContent = "Your final score is " + score + ".";
+}
 
 var quizQuestionSet = [
     {
