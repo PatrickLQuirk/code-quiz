@@ -9,6 +9,7 @@ var correctWrongEl = document.querySelector("#correct-wrong-info");
 var questionPromptEl = document.querySelector("#question-prompt");
 var highScoreLinkEl = document.querySelector("#highscorelink");
 var timerEl = document.querySelector("#timer");
+var timeLeft = 0;
 
 var buttonHandler = function(event) {
     var targetEl = event.target;
@@ -49,14 +50,14 @@ var startQuiz = function() {
 
 var runQuiz = function() {
     console.log("running quiz");
-    var timeLeft = 75;
+    timeLeft = 75;
     timerEl.textContent = "Time: " + timeLeft;
     var timeInterval = setInterval(function() {
         if (timeLeft <= 0) {
             clearInterval(timeInterval);
             timerEl.textContent = "Time: 0";
             console.log("Ending quiz because time ran out");
-            endQuiz(timeLeft);
+            endQuiz();
         } else {
             timeLeft = timeLeft - 1;
             timerEl.textContent = "Time: " + timeLeft;
@@ -85,7 +86,7 @@ var runQuiz = function() {
             if (questionIndex >= quizQuestionSet.length) {
                 console.log("Ran out of questions.");
                 clearInterval(timeInterval);
-                endQuiz(timeLeft);
+                endQuiz();
             }
             else {
                 constructQuizQuestion(questionIndex);
@@ -115,13 +116,15 @@ var correctIncorrectMessage = function(isCorrect) {
     }, 1000);
 };
 
-var endQuiz = function(timeLeft) {
+var endQuiz = function() {
     quizQuestionEl.style.display = "none";
     endQuizPageEl.style.display = "block";
     var score = timeLeft;
     var finalScoreMessageEl = document.querySelector("#final-score-message");
     finalScoreMessageEl.textContent = "Your final score is " + score + ".";
+    // the submission of the player's initials and transition to the page for high-scores will be handled separately
 }
+
 
 var quizQuestionSet = [
     {
@@ -154,4 +157,3 @@ var quizQuestionSet = [
 // change this event listener to be for just the button to start the quiz
 // the quiz answer choice buttons need to be handled inside the runQuiz function
 mainContentEl.addEventListener("click", buttonHandler);
-
