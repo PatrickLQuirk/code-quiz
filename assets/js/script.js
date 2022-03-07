@@ -150,7 +150,28 @@ var saveHighScore = function(event) {
     savableValue = JSON.stringify(highScores);
     localStorage.setItem("highscores", savableValue);
 
-    revertToStartingPage();
+    displayHighScores();
+}
+
+var displayHighScores = function() {
+    startPageEl.style.display = "none";
+    endQuizPageEl.style.display = "none";
+    timerEl.style.display = "none";
+    highScoreLinkEl.style.display = "none";
+    highScorePageEl.style.display = "block";
+
+    highScores = getScores();
+    highScoreTable = document.querySelector("#high-score-table");
+    highScoreTable.innerHTML = "";
+    for (i = 0; i < highScores.length; i++) {
+        highScoreObj = highScores[i];
+        row = document.createElement("tr");
+        cell = document.createElement("td");
+        row.className = "table-row";
+        cell.textContent = (i + 1) + ". " + highScoreObj.initials + " - " + highScoreObj.score;
+        row.appendChild(cell);
+        highScoreTable.appendChild(row);
+    };
 }
 
 var quizQuestionSet = [

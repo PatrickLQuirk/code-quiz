@@ -55,11 +55,26 @@ main {
     border-top: 3px solid;
 }
 
-#initials-form {
+.display-flex {
     display: flex;
     flex-wrap: wrap;
 }
 
 #initials-form div {
     margin: auto 20px;
+}
+
+#high-score-table {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.table-row {
+    background-color: #d9d3e9;
+    padding: 5px;
+    margin: 5px 0;
+}
+
+#high-score-page div button {
+    margin-right: 20px;
 }
