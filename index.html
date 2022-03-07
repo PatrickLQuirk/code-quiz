@@ -40,10 +40,21 @@
             </div>
         </div>
 
-        <div id="end-quiz-page" style="display:none">
+        <div id="end-quiz-page" style="display:none" class="centered">
             <h1>All done!</h1>
             <p id="final-score-message"></p>
-            <p></p>
+            <form id="initials-form">
+                <div>
+                    <p>Enter initials:</p>
+                </div>
+                
+                <div>
+                    <input type="text" name="initials" />
+                </div>
+                <div>
+                    <button class="main-button" id="save-initials" type="submit">Submit</button>
+                </div>
+            </form>
         </div>
         <div id="high-score-page" style="display:none"></div>
         <div id="correct-wrong-info" class="centered" style="display:none"></div>

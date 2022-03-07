@@ -54,3 +54,12 @@ main {
     font-style: italic;
     border-top: 3px solid;
 }
+
+#initials-form {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#initials-form div {
+    margin: auto 20px;
+}
