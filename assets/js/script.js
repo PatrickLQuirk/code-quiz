@@ -35,6 +35,7 @@ var revertToStartingPage = function() {
     correctWrongEl.style.display = "none";
 
     // add code to revert the timer back to saying zero
+    timeLeft = 0;
     timerEl.textContent = "Time: 0";
     // in case this is called from the high-score-page, start showing the timer and high-score link
     timerEl.style.display = "block";
@@ -119,12 +120,38 @@ var correctIncorrectMessage = function(isCorrect) {
 var endQuiz = function() {
     quizQuestionEl.style.display = "none";
     endQuizPageEl.style.display = "block";
-    var score = timeLeft;
     var finalScoreMessageEl = document.querySelector("#final-score-message");
-    finalScoreMessageEl.textContent = "Your final score is " + score + ".";
+    finalScoreMessageEl.textContent = "Your final score is " + timeLeft + ".";
     // the submission of the player's initials and transition to the page for high-scores will be handled separately
 }
 
+var getScores = function() {
+    var scoresString = localStorage.getItem("highscores");
+    if (!scoresString) {
+        highScores = [];
+    } else {
+        highScores = JSON.parse(scoresString);
+    }
+    return highScores;
+}
+
+var saveHighScore = function(event) {
+    event.preventDefault();
+
+    var initials = document.querySelector("input[name='initials']").value;
+    var score = timeLeft;
+    var highScores = getScores();
+    var scoreToSave = {
+        initials: initials,
+        score: score
+    };
+    highScores.push(scoreToSave);
+    highScores.sort((a, b) => b.score - a.score);
+    savableValue = JSON.stringify(highScores);
+    localStorage.setItem("highscores", savableValue);
+
+    revertToStartingPage();
+}
 
 var quizQuestionSet = [
     {
@@ -157,3 +184,4 @@ var quizQuestionSet = [
 // change this event listener to be for just the button to start the quiz
 // the quiz answer choice buttons need to be handled inside the runQuiz function
 mainContentEl.addEventListener("click", buttonHandler);
+endQuizPageEl.addEventListener("submit", saveHighScore);
