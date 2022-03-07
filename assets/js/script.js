@@ -10,10 +10,10 @@ var questionPromptEl = document.querySelector("#question-prompt");
 var highScoreLinkEl = document.querySelector("#highscorelink");
 var timerEl = document.querySelector("#timer");
 var timeLeft = 0;
+var questionIndex = 0;
 
-// this handles many of the buttons on the page
-// for scoping reasons, this does not handle the clicks of the answer choices during the quiz
-// this also does not handle the button for submitting the player's initials on the end-screen,
+// this handles most of the buttons on the page
+// this does not handle the button for submitting the player's initials on the end-screen,
 //      as that is handled with a "submit" event listener
 var clickHandler = function(event) {
     var targetEl = event.target;
@@ -22,6 +22,9 @@ var clickHandler = function(event) {
     // if the target is the start quiz button, start the quiz
     if (targetEl.matches(".start-quiz-button")) {
         startQuiz();
+    }
+    else if (targetEl.matches(".quiz-button")) {
+        answerQuizQuestion(targetEl);
     }
     else if (targetEl.matches("#back-to-start")) {
         revertToStartingPage();
@@ -59,59 +62,54 @@ var revertToStartingPage = function() {
     highScoreLinkEl.style.display = "block";
 };
 
+// I assign timeInterval to null here solely so that timeInterval is a global variable
+// its actual functionality will be set in the startQuiz function.
+var timeInterval = null;
+
 var startQuiz = function() {
-    console.log("Starting quiz...");
     startPageEl.style.display = "none";
     quizQuestionEl.style.display = "block";
-    runQuiz();
-}
-
-var runQuiz = function() {
-    console.log("running quiz");
     timeLeft = 75;
     timerEl.textContent = "Time: " + timeLeft;
-    var timeInterval = setInterval(function() {
-        if (timeLeft <= 0) {
-            clearInterval(timeInterval);
-            timerEl.textContent = "Time: 0";
-            console.log("Ending quiz because time ran out");
-            endQuiz();
-        } else {
-            timeLeft = timeLeft - 1;
-            timerEl.textContent = "Time: " + timeLeft;
+    timeInterval = setInterval(function() {
+        if (quizQuestionEl.style.display !== "none") {
+            if (timeLeft <= 0) {
+                clearInterval(timeInterval);
+                timerEl.textContent = "Time: 0";
+                endQuiz();
+            } else {
+                timeLeft = timeLeft - 1;
+                timerEl.textContent = "Time: " + timeLeft;
+            }
         }
     }, 1000);
     questionIndex = 0;
     constructQuizQuestion(questionIndex);
-    // event listener to handle the answer choice clicks
-    quizQuestionEl.addEventListener("click", function(event) {
-        var targetEl = event.target;
-        if (targetEl.matches(".quiz-button")) {
-            var targetTextContent = targetEl.textContent;
-            var question = quizQuestionSet[questionIndex];
-            var answer = question.answer;
-            if (targetTextContent.slice(3, targetTextContent.length) === answer) {
-                console.log("correct answer");
-                correctIncorrectMessage(true);
-            }
-            else {
-                console.log("incorrect answer");
-                timeLeft = timeLeft - 10;
-                timerEl.textContent = "Time: " + timeLeft;
-                correctIncorrectMessage(false);
-            }
-            questionIndex = questionIndex + 1
-            if (questionIndex >= quizQuestionSet.length) {
-                console.log("Ran out of questions.");
-                clearInterval(timeInterval);
-                endQuiz();
-            }
-            else {
-                constructQuizQuestion(questionIndex);
-            }
-        }
-    });
 }
+
+var answerQuizQuestion = function(targetEl) {
+    var targetTextContent = targetEl.textContent;
+    var question = quizQuestionSet[questionIndex];
+    var answer = question.answer;
+    if (targetTextContent.slice(3, targetTextContent.length) === answer) {
+        console.log("correct answer");
+        correctIncorrectMessage(true);
+    }
+    else {
+        console.log("incorrect answer");
+        timeLeft = timeLeft - 10;
+        timerEl.textContent = "Time: " + timeLeft;
+        correctIncorrectMessage(false);
+    }
+    questionIndex = questionIndex + 1;
+    if (questionIndex >= quizQuestionSet.length) {
+        clearInterval(timeInterval);
+        endQuiz();
+    }
+    else {
+        constructQuizQuestion(questionIndex);
+    }
+};
 
 var constructQuizQuestion = function(questionIndex) {
     var question = quizQuestionSet[questionIndex];
