@@ -61,7 +61,7 @@ main {
 }
 
 #initials-form div {
-    margin: auto 20px;
+    margin: auto 20px auto 0;
 }
 
 #high-score-table {
